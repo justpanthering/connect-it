@@ -10,6 +10,15 @@
     "react-native": "*",
     "react-native-svg": "*",
     "metro-config": "*",
-    "react-native-svg-transformer": "*"
+    "react-native-svg-transformer": "*",
+    "@react-navigation/native": "*",
+    "@react-navigation/stack": "*",
+    "tamagui": "*",
+    "react-native-gesture-handler": "*",
+    "@tamagui/shorthands": "*",
+    "@tamagui/themes": "*",
+    "react-native-config": "*",
+    "react-native-screens": "*",
+    "react-native-safe-area-context": "*"
   }
 }
