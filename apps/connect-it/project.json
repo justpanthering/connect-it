@@ -96,9 +96,10 @@
       }
     },
     "type-check": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
+      "outputs": [],
       "options": {
-        "command": "yarn run tsc -b tsconfig.json"
+        "command": "yarn run tsc -b apps/connect-it/tsconfig.json"
       }
     }
   },
