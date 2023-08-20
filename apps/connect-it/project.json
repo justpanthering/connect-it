@@ -94,6 +94,12 @@
           "codeCoverage": true
         }
       }
+    },
+    "type-check": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn run tsc -b tsconfig.json"
+      }
     }
   },
   "tags": []
