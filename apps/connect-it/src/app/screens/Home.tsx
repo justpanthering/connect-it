@@ -1,14 +1,19 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Button } from 'tamagui';
+import { Button, Text, Stack } from 'tamagui';
+import { QrCode, Scan } from '@tamagui/lucide-icons';
 
 export function Home() {
   return (
-    <View>
-      <Text>Home</Text>
-      <Button>
-        <Text>Button</Text>
+    <Stack height={'100%'} justifyContent="center" alignItems="center">
+      <Button icon={<QrCode size={24} />}>
+        <Text>Show QR</Text>
       </Button>
-    </View>
+      <Text marginVertical={10} color={'black'}>
+        or
+      </Text>
+      <Button icon={<Scan size={24} />}>
+        <Text>Scan QR</Text>
+      </Button>
+    </Stack>
   );
 }

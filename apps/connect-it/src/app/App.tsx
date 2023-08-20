@@ -16,7 +16,11 @@ export const App = () => {
       <NavigationContainer>
         <StatusBar barStyle="dark-content" />
         <Stack.Navigator>
-          <Stack.Screen name={ROUTES.HOME} component={Home} />
+          <Stack.Screen
+            name={ROUTES.HOME}
+            options={{ title: 'Home' }}
+            component={Home}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </TamaguiProvider>
