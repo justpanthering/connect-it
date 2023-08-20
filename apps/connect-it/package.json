@@ -19,6 +19,7 @@
     "@tamagui/themes": "*",
     "react-native-config": "*",
     "react-native-screens": "*",
-    "react-native-safe-area-context": "*"
+    "react-native-safe-area-context": "*",
+    "@tamagui/lucide-icons": "*"
   }
 }
