@@ -12,7 +12,7 @@
     "metro-config": "*",
     "react-native-svg-transformer": "*",
     "@react-navigation/native": "*",
-    "@react-navigation/stack": "*",
+    "@react-navigation/native-stack": "*",
     "tamagui": "*",
     "react-native-gesture-handler": "*",
     "@tamagui/shorthands": "*",
@@ -20,6 +20,7 @@
     "react-native-config": "*",
     "react-native-screens": "*",
     "react-native-safe-area-context": "*",
-    "@tamagui/lucide-icons": "*"
+    "@tamagui/lucide-icons": "*",
+    "detox": "*"
   }
 }

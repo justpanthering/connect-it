@@ -1,11 +1,18 @@
 import React from 'react';
+import { ROUTES, SERVER_ROUTES, StackParamList } from '../utils/navigation';
 import { Button, Text, Stack } from 'tamagui';
 import { QrCode, Scan } from '@tamagui/lucide-icons';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export function Home() {
+export function Home(
+  props: NativeStackScreenProps<StackParamList, ROUTES.HOME>
+) {
   return (
     <Stack height={'100%'} justifyContent="center" alignItems="center">
-      <Button icon={<QrCode size={24} />}>
+      <Button
+        icon={<QrCode size={24} />}
+        onPress={() => props.navigation.push(SERVER_ROUTES.CONNECT)}
+      >
         <Text>Show QR</Text>
       </Button>
       <Text marginVertical={10} color={'black'}>

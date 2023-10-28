@@ -2,25 +2,35 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { ROUTES } from './utils/navigation';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ROUTES, SERVER_ROUTES, StackParamList } from './utils/navigation';
 import { Home } from './screens';
+import { Connect as ServerConnect } from './screens/server';
 import { TamaguiProvider } from 'tamagui';
 import config from '../../tamagui.config';
 
 export const App = () => {
-  const Stack = createStackNavigator();
+  const Stack = createNativeStackNavigator<StackParamList>();
 
   return (
     <TamaguiProvider config={config}>
+      <StatusBar barStyle="dark-content" />
       <NavigationContainer>
-        <StatusBar barStyle="dark-content" />
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={ROUTES.HOME}>
           <Stack.Screen
             name={ROUTES.HOME}
             options={{ title: 'Home' }}
             component={Home}
           />
+          <Stack.Group>
+            <Stack.Screen
+              name={SERVER_ROUTES.CONNECT}
+              component={ServerConnect}
+              options={{
+                title: 'Connect to this device',
+              }}
+            />
+          </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
     </TamaguiProvider>
