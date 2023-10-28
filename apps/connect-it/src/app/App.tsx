@@ -8,6 +8,7 @@ import { Home } from './screens';
 import { Connect as ServerConnect } from './screens/server';
 import { TamaguiProvider } from 'tamagui';
 import config from '../../tamagui.config';
+import { TCPContextProvider } from './context/useTCPContext';
 
 export const App = () => {
   const Stack = createNativeStackNavigator<StackParamList>();
@@ -15,24 +16,26 @@ export const App = () => {
   return (
     <TamaguiProvider config={config}>
       <StatusBar barStyle="dark-content" />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={ROUTES.HOME}>
-          <Stack.Screen
-            name={ROUTES.HOME}
-            options={{ title: 'Home' }}
-            component={Home}
-          />
-          <Stack.Group>
+      <TCPContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName={ROUTES.HOME}>
             <Stack.Screen
-              name={SERVER_ROUTES.CONNECT}
-              component={ServerConnect}
-              options={{
-                title: 'Connect to this device',
-              }}
+              name={ROUTES.HOME}
+              options={{ title: 'Home' }}
+              component={Home}
             />
-          </Stack.Group>
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Group>
+              <Stack.Screen
+                name={SERVER_ROUTES.CONNECT}
+                component={ServerConnect}
+                options={{
+                  title: 'Connect to this device',
+                }}
+              />
+            </Stack.Group>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </TCPContextProvider>
     </TamaguiProvider>
   );
 };
