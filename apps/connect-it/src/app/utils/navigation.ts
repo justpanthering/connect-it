@@ -14,4 +14,14 @@ type ServerStackParamList = {
   [SERVER_ROUTES.CONNECT]: undefined;
 };
 
-export type StackParamList = RootStackParamList & ServerStackParamList;
+export enum CLIENT_ROUTES {
+  CONNECT = '/client/connect',
+}
+
+type ClientStackParamList = {
+  [CLIENT_ROUTES.CONNECT]: undefined;
+};
+
+export type StackParamList = RootStackParamList &
+  ServerStackParamList &
+  ClientStackParamList;

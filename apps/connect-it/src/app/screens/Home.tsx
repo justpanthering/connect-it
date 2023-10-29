@@ -1,5 +1,10 @@
 import React, { useCallback } from 'react';
-import { ROUTES, SERVER_ROUTES, StackParamList } from '../utils/navigation';
+import {
+  CLIENT_ROUTES,
+  ROUTES,
+  SERVER_ROUTES,
+  StackParamList,
+} from '../utils/navigation';
 import { Button, Text, Stack } from 'tamagui';
 import { QrCode, Scan } from '@tamagui/lucide-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -31,7 +36,13 @@ export function Home(
       <Text marginVertical={10} color={'black'}>
         or
       </Text>
-      <Button icon={<Scan size={24} />}>
+      <Button
+        icon={<Scan size={24} />}
+        onPress={() => {
+          handleSetTCPMode(TCPMode.CLIENT);
+          props.navigation.push(CLIENT_ROUTES.CONNECT);
+        }}
+      >
         <Text>Scan QR</Text>
       </Button>
     </Stack>

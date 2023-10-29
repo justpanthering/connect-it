@@ -3,9 +3,15 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ROUTES, SERVER_ROUTES, StackParamList } from './utils/navigation';
+import {
+  CLIENT_ROUTES,
+  ROUTES,
+  SERVER_ROUTES,
+  StackParamList,
+} from './utils/navigation';
 import { Home } from './screens';
 import { Connect as ServerConnect } from './screens/server';
+import { Connect as ClientConnect } from './screens/client';
 import { TamaguiProvider } from 'tamagui';
 import config from '../../tamagui.config';
 import { TCPContextProvider } from './context/useTCPContext';
@@ -30,6 +36,15 @@ export const App = () => {
                 component={ServerConnect}
                 options={{
                   title: 'Connect to this device',
+                }}
+              />
+            </Stack.Group>
+            <Stack.Group>
+              <Stack.Screen
+                name={CLIENT_ROUTES.CONNECT}
+                component={ClientConnect}
+                options={{
+                  title: 'Connect to a device',
                 }}
               />
             </Stack.Group>

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { generateContext } from './generateContext';
 import TcpSocket from 'react-native-tcp-socket';
+import { NetworkInfo } from 'react-native-network-info';
 
 export enum TCPMode {
   SERVER = 'server',
@@ -8,11 +9,17 @@ export enum TCPMode {
 }
 type TCPModeTypes = TCPMode.SERVER | TCPMode.CLIENT;
 
+const HANDSHAKE_KEYS = {
+  CLIENT_KEY: 'CLIENT_SAYS_HELLO',
+  SERVER_KEY: 'SERVER_SAYS_HELLO',
+};
+
 export const [TCPContext, useTCPContext] = generateContext<{
   tcpMode: TCPMode | null;
   handleSetTCPMode: (mode: TCPMode) => void;
   serverSocket: TcpSocket.Server | null;
   handleEnteredHomeScreen: () => void;
+  handleCreateClientSocket: (ipv4Address: string) => void;
 }>();
 
 export function TCPContextProvider({
@@ -25,6 +32,8 @@ export function TCPContextProvider({
     null
   );
 
+  const [clientSocket, setClientSocket] = useState<TcpSocket.Socket>();
+
   useEffect(() => {
     return () => {
       serverSocket && serverSocket.close();
@@ -34,10 +43,13 @@ export function TCPContextProvider({
   const handleSetTCPMode = useCallback(
     (mode: TCPModeTypes) => {
       setTCPMode(mode);
-      if (!serverSocket) {
+      if (mode === TCPMode.SERVER && !serverSocket) {
         const server = TcpSocket.createServer(function (socket) {
           socket.on('data', (data) => {
-            socket.write('Echo server ' + data);
+            console.log('SERVER: Received data', data.toString());
+            if (data.toString() === HANDSHAKE_KEYS.CLIENT_KEY) {
+              socket.write(HANDSHAKE_KEYS.SERVER_KEY);
+            } else socket.write('Echo server ' + data);
           });
 
           socket.on('error', (error) => {
@@ -64,11 +76,51 @@ export function TCPContextProvider({
     [serverSocket]
   );
 
+  const handleCreateClientSocket = useCallback(
+    async (ipv4Address: string) => {
+      const client = TcpSocket.createConnection(
+        { port: 12345, host: ipv4Address },
+        () => {
+          // Write on the socket
+          client.write(HANDSHAKE_KEYS.CLIENT_KEY);
+        }
+      );
+
+      client.on('data', function (data) {
+        console.log('CLIENT: Received data', data.toString());
+        if (!clientSocket) {
+          if (data.toString() === HANDSHAKE_KEYS.SERVER_KEY) {
+            console.log('CLIENT: Socket connection successful');
+            setClientSocket(clientSocket);
+          } else {
+            console.log(
+              'CLIENT: Invalid handshake key from server. Disconnecting...'
+            );
+            client.destroy();
+            setClientSocket(null);
+          }
+        }
+      });
+
+      client.on('error', function (error) {
+        console.log('Client: ', error);
+      });
+
+      client.on('close', function () {
+        console.log('Connection closed!');
+        setClientSocket(null);
+      });
+    },
+    [clientSocket]
+  );
+
   const handleEnteredHomeScreen = useCallback(() => {
     if (serverSocket) {
       serverSocket.close();
       setServerSocket(null);
       setTCPMode(null);
+    } else {
+      setClientSocket(null);
     }
   }, [serverSocket]);
 
@@ -79,6 +131,7 @@ export function TCPContextProvider({
         handleSetTCPMode,
         serverSocket,
         handleEnteredHomeScreen,
+        handleCreateClientSocket,
       }}
     >
       {children}
