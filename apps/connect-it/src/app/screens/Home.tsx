@@ -19,7 +19,7 @@ export function Home(
   useFocusEffect(
     useCallback(() => {
       handleEnteredHomeScreen();
-    }, [])
+    }, [handleEnteredHomeScreen])
   );
 
   return (
