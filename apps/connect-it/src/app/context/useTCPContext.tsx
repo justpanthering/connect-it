@@ -13,7 +13,7 @@ type TCPModeTypes = TCPMode.SERVER | TCPMode.CLIENT;
 export const [TCPContext, useTCPContext] = generateContext<{
   tcpMode: TCPMode | null;
   handleSetTCPMode: (mode: TCPMode) => void;
-  serverSocket: TcpSocket.Server | null;
+  server: TcpSocket.Server | null;
   handleEnteredHomeScreen: () => void;
   handleCreateClientSocket: (ipv4Address: string) => void;
 }>();
@@ -25,17 +25,17 @@ export function TCPContextProvider({
 }) {
   const [tcpMode, setTCPMode] = useState<TCPModeTypes | null>(null);
 
-  const { serverSocket, initializeServerSocket, resetServer } = useServer();
+  const { server, initializeServerSocket, resetServer } = useServer();
   const { handleCreateClientSocket, resetClient } = useClient();
 
   const handleSetTCPMode = useCallback(
     (mode: TCPModeTypes) => {
       setTCPMode(mode);
-      if (mode === TCPMode.SERVER && !serverSocket) {
+      if (mode === TCPMode.SERVER && !server) {
         initializeServerSocket();
       }
     },
-    [serverSocket, initializeServerSocket]
+    [server, initializeServerSocket]
   );
 
   const handleEnteredHomeScreen = useCallback(() => {
@@ -49,7 +49,7 @@ export function TCPContextProvider({
       value={{
         tcpMode,
         handleSetTCPMode,
-        serverSocket,
+        server,
         handleEnteredHomeScreen,
         handleCreateClientSocket,
       }}

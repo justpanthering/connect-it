@@ -7,7 +7,7 @@ import QRCode from 'react-qr-code';
 export function Connect() {
   const [ipAddress, setIpAddress] = useState('');
 
-  const { serverSocket } = useTCPContext();
+  const { server } = useTCPContext();
 
   useEffect(() => {
     async function getIpAddress() {
@@ -19,7 +19,7 @@ export function Connect() {
     }
   }, [ipAddress]);
 
-  if (!serverSocket) {
+  if (!server) {
     return (
       <Stack height={'100%'} justifyContent="center" alignItems="center">
         <Spinner />

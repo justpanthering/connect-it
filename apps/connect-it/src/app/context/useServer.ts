@@ -3,15 +3,13 @@ import TcpSocket from 'react-native-tcp-socket';
 import { HANDSHAKE_KEYS } from './constants';
 
 export function useServer() {
-  const [serverSocket, setServerSocket] = useState<TcpSocket.Server | null>(
-    null
-  );
+  const [server, setServer] = useState<TcpSocket.Server | null>(null);
 
   useEffect(() => {
     return () => {
-      serverSocket && serverSocket.close();
+      server && server.close();
     };
-  }, [serverSocket]);
+  }, [server]);
 
   const initializeServerSocket = useCallback(() => {
     const server = TcpSocket.createServer(function (socket) {
@@ -40,15 +38,15 @@ export function useServer() {
       console.log('Server closed connection');
     });
     // Save value in context
-    setServerSocket(server);
+    setServer(server);
   }, []);
 
   const resetServer = useCallback(() => {
-    if (serverSocket) {
-      serverSocket.close();
-      setServerSocket(null);
+    if (server) {
+      server.close();
+      setServer(null);
     }
-  }, [serverSocket]);
+  }, [server]);
 
-  return { serverSocket, initializeServerSocket, resetServer };
+  return { server, initializeServerSocket, resetServer };
 }
